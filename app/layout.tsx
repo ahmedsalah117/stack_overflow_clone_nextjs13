@@ -33,7 +33,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${grotesk.variable}`}>
-        <h1 className="h1-bold">testing fonts</h1>
         <ClerkProvider
           appearance={{
             elements: {
