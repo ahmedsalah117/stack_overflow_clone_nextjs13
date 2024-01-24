@@ -1,7 +1,15 @@
+import Question from "@/components/forms/Question";
 import React from "react";
 
-function AskQuestion() {
-  return <h1>Ask question AskQuestion</h1>;
+function Page() {
+  return (
+    <div>
+      <h1 className="h1-bold text-dark100_light900">Ask a question</h1>
+      <div>
+        <Question />
+      </div>
+    </div>
+  );
 }
 
 export default Page;
