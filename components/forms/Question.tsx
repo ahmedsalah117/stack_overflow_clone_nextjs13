@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { QuestionSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,8 +18,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
+
+const type: any = "Create";
 const Question = () => {
   const editorRef = useRef(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   // 1. Define your form.
   const form = useForm<z.infer<typeof QuestionSchema>>({
     resolver: zodResolver(QuestionSchema),
@@ -34,7 +37,16 @@ const Question = () => {
   function onSubmit(values: z.infer<typeof QuestionSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
+    setIsSubmitting(true);
     console.log(values);
+
+    try {
+      // Gather all form data , then send an http request to our API .
+      // navigate to home page
+    } catch (error) {
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   function handleInputKeyDown(
@@ -204,7 +216,17 @@ const Question = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button
+          className="primary-gradient w-fit !text-light-900"
+          type="submit"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? (
+            <>{type === "Edit" ? "Editing..." : "Posting..."}</>
+          ) : (
+            <>{type === "Edit" ? "Edit" : "Ask a Question"}</>
+          )}
+        </Button>
       </form>
     </Form>
   );
