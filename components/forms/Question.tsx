@@ -16,6 +16,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Badge } from "../ui/badge";
+import Image from "next/image";
 const Question = () => {
   const editorRef = useRef(null);
   // 1. Define your form.
@@ -35,6 +37,41 @@ const Question = () => {
     console.log(values);
   }
 
+  function handleInputKeyDown(
+    e: React.KeyboardEvent<HTMLInputElement>,
+    field: any
+  ) {
+    if (e.key === "Enter" && field.name === "tags") {
+      e.preventDefault();
+
+      const tagsInput = e.target as HTMLInputElement;
+      const tagValue = tagsInput.value.trim();
+
+      if (tagValue !== "") {
+        if (tagValue.length > 15) {
+          return form.setError("tags", {
+            type: "required",
+            message: "Tags must be less than 15 characters",
+          });
+        }
+
+        if (!field.value.includes(tagValue)) {
+          form.setValue("tags", [...field.value, tagValue]);
+          tagsInput.value = "";
+          form.clearErrors("tags");
+        }
+      } else {
+        form.trigger();
+      }
+    }
+  }
+
+  function handleTagRemove(tag: string, field: any) {
+    console.log(field.value, "tag:", tag);
+    const newTags = field.value.filter((ele) => ele !== tag);
+
+    form.setValue("tags", newTags);
+  }
   return (
     <Form {...form}>
       <form
@@ -118,18 +155,46 @@ const Question = () => {
         />
         <FormField
           control={form.control}
-          name="question"
+          name="tags"
           render={({ field }) => (
             <FormItem className="flex-col w-full flex">
               <FormLabel className="paragraph-semibold text-dark400_light800">
                 Tags <span className="text-primary-500">*</span>
               </FormLabel>
               <FormControl className="mt-3.5">
-                <Input
-                  className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
-                  {...field}
-                  placeholder="Add tags..."
-                />
+                <>
+                  <Input
+                    className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                    placeholder="Add tags..."
+                    onKeyDown={(e) => {
+                      handleInputKeyDown(e, field);
+                    }}
+                  />
+                  {field.value.length > 0 && (
+                    <div className="flex-start mt-2.5 gap-2.5">
+                      {field.value.map((tag: any) => {
+                        return (
+                          <Badge
+                            key={tag}
+                            className="subtle-medium background-light800_dark300 text-light-400_light500 flex items-center justify-center gap-2 rounded-md border-none px-4 py-2 capitalize"
+                          >
+                            {tag}
+                            <Image
+                              src={"/assets/icons/close.svg"}
+                              alt="close-icon"
+                              width={12}
+                              height={12}
+                              className="cursor-pointer object-contain invert-0 dark:invert"
+                              onClick={() => {
+                                handleTagRemove(tag, field);
+                              }}
+                            />
+                          </Badge>
+                        );
+                      })}
+                    </div>
+                  )}
+                </>
               </FormControl>
               <FormDescription className="body-regular mt-2.5 text-light-500">
                 Add up to 3 tags to describe what your question is about. You
