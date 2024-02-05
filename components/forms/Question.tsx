@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
+import { createQuestion } from "@/lib/actions/question.action";
 
 const type: any = "Create";
 const Question = () => {
@@ -34,7 +35,7 @@ const Question = () => {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof QuestionSchema>) {
+  async function onSubmit(values: z.infer<typeof QuestionSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     setIsSubmitting(true);
@@ -43,6 +44,7 @@ const Question = () => {
     try {
       // Gather all form data , then send an http request to our API .
       // navigate to home page
+      createQuestion({});
     } catch (error) {
     } finally {
       setIsSubmitting(false);
@@ -127,6 +129,10 @@ const Question = () => {
                   onInit={(evt, editor) => {
                     //@ts-ignore
                     editorRef.current = editor;
+                  }}
+                  onBlur={field.onBlur}
+                  onEditorChange={(content) => {
+                    field.onChange(content);
                   }}
                   init={{
                     height: 350,
