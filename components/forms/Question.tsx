@@ -19,20 +19,28 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
 import { createQuestion } from "@/lib/actions/question.action";
-
+import { useRouter, usePathname } from "next/navigation";
 const type: any = "Create";
-const Question = () => {
+
+interface props {
+  mongoUserId: string;
+}
+
+const Question = ({ mongoUserId }: props) => {
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   // 1. Define your form.
   const form = useForm<z.infer<typeof QuestionSchema>>({
     resolver: zodResolver(QuestionSchema),
     defaultValues: {
-      question: "",
+      title: "",
       explanation: "",
       tags: [],
     },
   });
+
+  const router = useRouter();
+  const pathName = usePathname();
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof QuestionSchema>) {
@@ -43,8 +51,16 @@ const Question = () => {
 
     try {
       // Gather all form data , then send an http request to our API .
-      // navigate to home page
-      createQuestion({});
+
+      await createQuestion({
+        title: values.title,
+        content: values.explanation,
+        tags: values.tags,
+        author: JSON.parse(mongoUserId),
+        path: pathName,
+      });
+
+      router.push("/");
     } catch (error) {
     } finally {
       setIsSubmitting(false);
@@ -94,7 +110,7 @@ const Question = () => {
       >
         <FormField
           control={form.control}
-          name="question"
+          name="title"
           render={({ field }) => (
             <FormItem className="flex-col w-full flex">
               <FormLabel className="paragraph-semibold text-dark400_light800">
