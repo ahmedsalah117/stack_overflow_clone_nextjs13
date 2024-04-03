@@ -47,7 +47,6 @@ const Question = ({ mongoUserId }: props) => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     setIsSubmitting(true);
-    console.log(values);
 
     try {
       // Gather all form data , then send an http request to our API .
