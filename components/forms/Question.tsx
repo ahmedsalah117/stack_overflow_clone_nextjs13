@@ -97,6 +97,7 @@ const Question = ({ mongoUserId }: props) => {
 
   function handleTagRemove(tag: string, field: any) {
     console.log(field.value, "tag:", tag);
+    //@ts-ignore
     const newTags = field.value.filter((ele) => ele !== tag);
 
     form.setValue("tags", newTags);
