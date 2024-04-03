@@ -1,4 +1,5 @@
 "use client";
+/* eslint spaced-comment: "off" */
 import React, { useRef, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { QuestionSchema } from "@/lib/validations";
