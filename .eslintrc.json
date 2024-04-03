@@ -4,5 +4,17 @@
     "standard",
     "plugin:tailwindcss/recommended",
     "prettier"
-  ]
+  ],
+  "rules": {
+    "camelcase": [
+      "error",
+      {
+        "properties": "never",
+        "ignoreDestructuring": true,
+        "allow": ["svix_id"]
+      }
+    ],
+    "spaced-comment": "off",
+    "no-unneeded-ternary": "off"
+  }
 }
