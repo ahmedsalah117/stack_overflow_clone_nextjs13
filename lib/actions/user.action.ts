@@ -6,7 +6,7 @@ import { CreateUserParams, DeleteUserParams, UpdateUserParams } from "./shared";
 import { revalidatePath } from "next/cache";
 import Question from "@/database/question.model";
 
-interface props {}
+// interface props {}
 
 export async function getUserById(params: any) {
   try {
