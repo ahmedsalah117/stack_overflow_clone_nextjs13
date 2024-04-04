@@ -11,7 +11,8 @@ export default authMiddleware({
     "/tags",
     "/tags/:id",
     "/profile/:id",
-    "/community/jobs",
+    "/community",
+    "/jobs",
   ],
   ignoredRoutes: ["/api/webhook", "/api/chatgpt", "/.well-known/vercel/flags"],
 });
