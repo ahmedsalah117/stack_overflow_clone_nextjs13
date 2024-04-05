@@ -17,7 +17,6 @@ export default authMiddleware({
   ignoredRoutes: ["/api/webhook", "/api/chatgpt", "/.well-known/vercel/flags"],
 });
 
-
 export const config = {
   matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 };
