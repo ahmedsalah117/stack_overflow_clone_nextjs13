@@ -27,6 +27,7 @@ export default async function Home() {
           iconPosition="left"
           imgSrc="/assets/icons/search.svg"
           placeholder="Search Questions"
+          otherClasses="flex-1"
         />
         <Filter
           filters={HomePageFilters}
