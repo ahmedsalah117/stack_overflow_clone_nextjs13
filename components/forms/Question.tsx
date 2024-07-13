@@ -1,6 +1,6 @@
 "use client";
 /* eslint spaced-comment: "off" */
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { QuestionSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -103,6 +103,13 @@ const Question = ({ mongoUserId }: props) => {
 
     form.setValue("tags", newTags);
   }
+
+  useEffect(() => {
+    console.log(
+      process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY,
+      "the api key of tiny"
+    );
+  }, []);
   return (
     <Form {...form}>
       <form
@@ -142,7 +149,7 @@ const Question = ({ mongoUserId }: props) => {
               </FormLabel>
               <FormControl className="mt-3.5">
                 <Editor
-                  apiKey={process.env.NEXT_PUBLIC_TINY_EDITO_API_KEY}
+                  apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}
                   onInit={(evt, editor) => {
                     //@ts-ignore
                     editorRef.current = editor;
